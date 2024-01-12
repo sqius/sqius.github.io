@@ -12,9 +12,6 @@ hero:
     - theme: alt
       text: 一杯咖啡
       link: /coffee/
-  # image:
-    # src: /rspress-icon.png
-    # alt: SHUANG Logo
 features:
   - title: '知识笔记'
     details: 技术点汇总 记录技术要点和见解
