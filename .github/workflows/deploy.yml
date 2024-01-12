@@ -14,8 +14,8 @@ permissions:
 concurrency:
   group: pages
   cancel-in-progress: false
-  
-env: 
+
+env:
     TZ: Asia/Shanghai # 设置当前环境时区
 
 jobs:

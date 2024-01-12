@@ -1,7 +1,17 @@
 [
   {
-    "text": "Guide",
-    "link": "/guide/",
-    "activeMatch": "/guide/"
+    "text": "笔记",
+    "link": "/note/",
+    "activeMatch": "/note/"
+  },
+  {
+    "text": "一杯咖啡",
+    "link": "/coffee/",
+    "activeMatch": "/coffee/"
+  },
+  {
+    "text": "资源",
+    "link": "/resources/",
+    "activeMatch": "/resources/"
   }
 ]

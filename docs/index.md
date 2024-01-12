@@ -2,36 +2,27 @@
 pageType: home
 
 hero:
-  name: SHUANG
-  text: 开发笔记
-  tagline: 啊？？？
+  name: CUP OF COFFEE
+  text: 一杯咖啡的时间 掌握一个知识点
+  tagline: 最好的时间是当下
   actions:
     - theme: brand
-      text: Quick Start
-      link: /guide/
+      text: 笔记
+      link: /note/
     - theme: alt
-      text: page
-      link: /guide/
-  image:
-    src: /rspress-icon.png
-    alt: SHUANG Logo
+      text: 一杯咖啡
+      link: /coffee/
+  # image:
+    # src: /rspress-icon.png
+    # alt: SHUANG Logo
 features:
-  - title: Blazing fast build speed
-    details: The core compilation module is based on the Rust front-end toolchain, providing a more ultimate development experience.
-    icon: 🏃🏻‍♀️
-  - title: Support for MDX content writing
-    details: MDX is a powerful way to write content, allowing you to use React components in Markdown.
-    icon: 📦
-  - title: Built-in full-text search
-    details: Automatically generates a full-text search index for you during construction, providing out-of-the-box full-text search capabilities.
-    icon: 🎨
-  - title: Simpler I18n solution
-    details: With the built-in I18n solution, you can easily provide multi-language support for documents or components.
-    icon: 🌍
-  - title: Static site generation
-    details: In production, it automatically builds into static HTML files, which can be easily deployed anywhere.
-    icon: 🌈
-  - title: Providing multiple custom capabilities
-    details: Through its extension mechanism, you can easily extend theme UI and build process.
-    icon: 🔥
+  - title: '知识笔记'
+    details: 技术点汇总 记录技术要点和见解
+    icon: 📝
+  - title: '一杯咖啡'
+    details: 一杯咖啡的时间 掌握一个知识点
+    icon: ☕️
+  - title: '资源导航'
+    details: 常用的资源导航 优秀资源
+    icon: 🚀
 ---

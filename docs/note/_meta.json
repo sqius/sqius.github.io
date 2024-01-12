@@ -1,0 +1,27 @@
+[
+  {
+    "type": "file",
+    "name": "index",
+    "label": "note"
+  },
+  {
+    "type": "dir",
+    "name": "css",
+    "label": "css"
+  },
+  {
+    "type": "dir",
+    "name": "Javascript",
+    "label": "Javascript"
+  },
+  {
+    "type": "dir",
+    "name": "React",
+    "label": "React"
+  },
+  {
+    "type": "dir",
+    "name": "Vue",
+    "label": "Vue"
+  }
+]
