@@ -2,16 +2,16 @@
   "name": "sqius-docs",
   "version": "1.0.0",
   "private": true,
-	"author": "s.qiu@foxmail.com",
+  "author": "s.qiu@foxmail.com",
   "scripts": {
     "dev": "rspress dev",
     "build": "rspress build",
     "preview": "rspress preview"
   },
   "dependencies": {
-		"rspress": "^1.9.3"
-	},
-	"devDependencies": {
-		"@types/node": "^20"
-	}
+    "rspress": "^1.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20"
+  }
 }

@@ -6,7 +6,8 @@
   },
   {
     "type": "dir",
-    "name": "MacOS",
-    "label": "MacOS"
+    "name": "macOS",
+    "label": "macOS"
   }
+
 ]
