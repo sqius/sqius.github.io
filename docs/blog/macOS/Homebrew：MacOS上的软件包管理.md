@@ -48,7 +48,7 @@ brew services restart redis
 #### 选择一个你喜欢的镜像下载源
 🔔 如果存在旧版本，会弹出删除旧版本提示，输入"Y"，回车。
 
-![](../image/macOS/homebrew_install.jpg)
+![](../image/MacOS/homebrew_install.jpg)
 
 
 #### 如果你的电脑环境中没有配置 `git`，会停止 `Homebrew` 的安装，请先安装 `git`
@@ -56,11 +56,11 @@ brew services restart redis
 🔔 一般情况会 弹出安装 `git` 的提示，点击安装即可.
 🔔 安装完成 `git` 后，再次执行 `Homebrew` 安装指令，直到安装完成。
 
-![](../image/macOS/homebrew_git.jpg)
+![](../image/MacOS/homebrew_git.jpg)
 
 
 #### `brew --version`。看到版本信息
-![](../image/macOS/hombrew_version.jpg)
+![](../image/MacOS/hombrew_version.jpg)
 
 #### 如果你想卸载 Homebrew
 ``` bash
