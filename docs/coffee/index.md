@@ -1,8 +1,4 @@
 ---
-author: Shuang
-description: 一杯咖啡的时间
+overview: true
 ---
-
-# 一杯咖啡的时间
-
-&emsp;&emsp;一杯咖啡的时间 掌握一个知识点
+# 一杯咖啡
