@@ -3,5 +3,10 @@
     "type": "file",
     "name": "index",
     "label": "一杯咖啡"
+  },
+  {
+    "type": "dir",
+    "name": "JavaScript",
+    "label": "JavaScript"
   }
 ]
