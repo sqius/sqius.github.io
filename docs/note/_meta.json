@@ -23,5 +23,15 @@
     "type": "dir",
     "name": "Vue",
     "label": "Vue"
+  },
+  {
+    "type": "dir",
+    "name": "java",
+    "label": "java"
+  },
+  {
+    "type": "dir",
+    "name": "sql",
+    "label": "sql"
   }
 ]
