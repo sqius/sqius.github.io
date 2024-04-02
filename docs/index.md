@@ -2,8 +2,8 @@
 pageType: home
 
 hero:
-  name: CUP OF COFFEE
-  text: 一杯咖啡的时间 掌握一个知识点
+  name: 今日不学习 明日变垃圾
+  text: Good Good Study Day Day Up
   tagline: 最好的时间是当下
   actions:
     - theme: brand
