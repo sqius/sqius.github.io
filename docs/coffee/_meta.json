@@ -8,5 +8,10 @@
     "type": "dir",
     "name": "前端",
     "label": "前端"
+  },
+  {
+    "type": "dir",
+    "name": "AI",
+    "label": "AI"
   }
 ]
