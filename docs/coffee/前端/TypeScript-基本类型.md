@@ -1,42 +1,9 @@
-# 一杯咖啡的时间 掌握TypeScript知识点
-TypeScript ：是 JavaScript 的超集，拥有类型机制，不能在浏览器
-直接执行，而是编译成 JavaScript 后才会运行。
+# TypeScript-基本类型
 
-## 📄 tsc 的安装与使用
-`.ts` 文件是不可以直接执行的，需要编译为 `.js` 文件，才能够进行运行。
-
-`tsc` 是 `typescript compiler` 的缩写，即 `ts` 的编译器。
-
-``` bash
-# npm 全局安装 TypeScript
-npm install typescript -g
-
-# 检查是否存在 tsc 环境变量，配置正确时会回应tsc的版本号
-tsc -v
-
-# 尝试创建ts文件并写入一些内容
-touch demo.ts && echo 'console.log("Hello ts!")' > demo.ts
-
-# 将ts文件编译为同名js文件后运行
-tsc demo.ts && node demo.js
-
-# 将当前目录下所有文件编译为同名js文件
-tsc *
-```
-
-上方的例子分为了两步（先转换在运行），可以通过 `ts-node`，来进行合并操作：
-``` bash
-# npm 项目中安装 ts-node
-npm install ts-node -D
-
-# 直接进行运行
-ts-node demo.ts
-```
-
-## 📄 基础类型
-### 基本类型
+## 📄 基本类型
 > `number` , `string` , `boolean` ,  `symbol` , `null` 和 `undefined`
-#### number 数值类型
+
+## 📄 number 数值类型
 ``` ts
 let num: number = 123;
 num = 0b1111011; // 二进制的123
@@ -47,20 +14,20 @@ num = 0x7b; // 十六进制的123
 TS中指定类型的时候要用 `number` ，这个是 `TypeScript` 的类型关键字。而 `Number` 为 `JavaScript` 的原生构造函数，用它来创建数值类型的值。
 :::
 
-#### string 字符串
+## 📄 string 字符串
 ``` ts
 let str: string = "hello";
 const str2 = "typescript";
 str = `${str} ${str2}`; // hello typescript
 ```
 
-#### boolean 布尔类型
+## 📄 boolean 布尔类型
 ``` ts
 let bool: boolean = false;
 let bool1: boolean = !!0 // false
 ```
 
-#### null 和 undefind
+## 📄 null 和 undefind
 ``` ts
 const u: undefined = undefined;
 const n: null = null;
@@ -91,7 +58,7 @@ sum(1, null); // error Argument of type 'null' is not assignable to parameter of
 ```
 :::
 
-#### symbol
+## 📄 symbol
 ``` ts
 // symbol是 ES6 新增的一种基本数据类型，用来表示独一无二的值。
 const s1 = Symbol('s1')
@@ -138,10 +105,10 @@ ES6 提供了 11 个内置的 Symbol 值，可自行搜索查看。
 :::
 
 
-### 对象类型
+## 📄 对象类型
 > `{}` 或者 `object`,  `[]` 或者 `Array<any>`, 和 `function`, `Class` 类型
 
-#### Array<any> 或 []
+## 📄 Array<any> 或 []
 ``` ts
 // 字面量创建
 const arr: [] = [];
@@ -167,7 +134,7 @@ const objectArr: User[] = [
 ]
 ```
 
-#### object 或 {}
+## 📄 object 或 {}
 ``` ts
 // 字面量创建
 const obj: {} = {};
@@ -234,21 +201,3 @@ r = null; // Error
 r = undefined; // Error
 ```
 :::
-
-#### 函数类型
-一个函数的定义包括函数名、参数、逻辑和返回值。
-
-- 如果省略参数的类型，TypeScript 会默认这个参数是 any 类型；
-- 如果省略返回值的类型：
-  - 如果函数无返回值，那么 TypeScript 会默认函数返回值是 void 类型；
-  - 如果函数有返回值，那么 TypeScript 会根据我们定义的逻辑推断出返回类型。
-``` ts
-// 普通函数
-function addFun(arg1: number, arg2: number): number {
-  return x + y;
-}
-// 箭头函数
-const addFun = (arg1: number, arg2: number): number => {
-  return x + y;
-};
-```
