@@ -27,7 +27,7 @@ let bool: boolean = false;
 let bool1: boolean = !!0 // false
 ```
 
-## 📄 null 和 undefind
+## 📄 null 和 undefined
 ``` ts
 const u: undefined = undefined;
 const n: null = null;
