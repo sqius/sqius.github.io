@@ -4,7 +4,7 @@
 [TypeScript](https://www.typescriptlang.org/)：是 JavaScript 的超集，拥有类型机制，不能在浏览器直接执行，而是编译成 JavaScript 后才会运行。
 
 - 超集（superset）：比如 ES6 包含了 ES5 所有的内容，还有一些独特的语法特性，就可以理解为 ES6 是 ES5 的超集。
-- 类型：指的是静态的类型，js 中一个存放字符串的变量，后续依旧可以将数字、对象、数组等类型赋值到该变量，这是动态类型。
+- 类型：js 中一个存放字符串的变量，后续依旧可以将数字、对象、数组等类型赋值到该变量，这是动态类型。
 - 而 ts 则是静态类型，后续不可更改类型。
 
 ## 📄 tsc 的安装与使用
@@ -87,6 +87,17 @@ temp = "456";
 ```
 
 ## 📄 静态类型
+- JavaScript 运行时才会进行类型检查，会导致运行时的错误 它是动态类型。
+- TypeScript 是静态类型 在运行前需要先编译为 JavaScript，而在编译阶段就会进行类型检查。
+``` ts
+let foo = 1; // 这里根据类型推断，可以省略 :number
+foo.split(","); // Error 类型“number”上不存在属性“split”。
+
+// 支持 数字类型的所有方法
+foo.toFixed()
+foo.toString()
+```
+
 
 ## 📄 类型断言
 TypeScript 允许你覆盖它的推断，并且能以你任何你想要的方式分析它，这种机制被称为「类型断言」
@@ -304,7 +315,6 @@ const getNum = (
 ``` ts
 let funcA = function(arg: number | string): void {};
 let funcB = function(arg: number): void {};
-funcA = funcB // Success
 funcB = funcA // Success
 ```
 
@@ -347,9 +357,9 @@ enum Color {
   Black
 }
 let s = Status.On;
-s = Color.White; // error Type 'Color.White' is not assignable to type 'Status'
+s = Color.White; // Error 不能将类型“Color.White”分配给类型“Status”
 
-s = 'zs' // error 不能将类型“"zs"”分配给类型“Status”
+s = 'zs' // Error 不能将类型“"zs"”分配给类型“Status”
 ```
 
 #### 📄 类
@@ -373,7 +383,7 @@ let a: Animal;
 let p: People;
 let f: Food;
 a = p; // right
-a = f; // error Type 'Food' is not assignable to type 'Animal'
+a = f; // Error Type 'Food' is not assignable to type 'Animal'
 ```
 
 - 类的私有成员和受保护成员会影响兼容性。
