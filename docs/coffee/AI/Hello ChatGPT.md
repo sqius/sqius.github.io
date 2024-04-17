@@ -16,7 +16,7 @@ ChatGPT 采用对话格式，目前已经做到流利回答问题、纠正自己
 
 [GPT/AIGC/LLM/NLP/ChatGPT 学习](https://gofurther.feishu.cn/docx/Enofdl25BotoVrxth8ec4rNBn5c)
 
-[ChatGPT的各项超能力从哪儿来？万字拆解追溯技术路线图来了！](https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650864144&idx=4&sn=1270624988d70f44d4059af7ac4ae4e0&scene=21#wechat_redirect)
+[ChatGPT的各项超能力从哪儿来？万字拆解追溯技术路线图！](https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650864144&idx=4&sn=1270624988d70f44d4059af7ac4ae4e0&scene=21#wechat_redirect)
 
 [由ChatGPT反思大语言模型（LLM）的技术精要](https://mp.weixin.qq.com/s?__biz=MzU1NTMyOTI4Mw==&mid=2247621831&idx=1&sn=0f2de47c7bc1721afd787df64c389a43&scene=21#wechat_redirect)
 
