@@ -20,7 +20,7 @@ declare const myPoint: Point;
 ```
 
 - TypeScript 接口是开放式的，这是 TypeScript 的一个重要原则，它允许你使用接口来模仿 JavaScript 的可扩展性。
-> 由于TypeScript的声明合并策略，会将同名的一些可合并的声明进行合并，当同名的两个值或类型不能合并的时候，或者可以合并的连个同名的值不符合要求，就会报错；
+> 由于TypeScript的声明合并策略，会将同名的一些可合并的声明进行合并，当同名的两个值或类型不能合并的时候，或者可以合并的两个同名的值不符合要求，就会报错；
 ``` ts
 // Lib a.d.ts
 interface Point {
