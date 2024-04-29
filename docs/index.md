@@ -2,7 +2,7 @@
 pageType: home
 
 hero:
-  name: 今日不学习 明日变垃圾
+  name: 没有记录就没有发生 进而没有活过
   text: Good Good Study Day Day Up
   # tagline: 最好的时间是当下
   # actions:
