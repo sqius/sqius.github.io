@@ -6,11 +6,6 @@
 
 #### 📄 基础用法
 ``` ts
-declare const myPoint: {
-  x: number;
-  y: number;
-}
-
 interface Point {
   x: number;
   y: number;
