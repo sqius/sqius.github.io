@@ -2,8 +2,8 @@
 pageType: home
 
 hero:
-  name: 没有记录就没有发生 进而没有活过
-  text: Good Good Study Day Day Up
+  name: 没有记录 就没有发生
+  text: 进而没有活过
   # tagline: 最好的时间是当下
   # actions:
   #   - theme: brand
