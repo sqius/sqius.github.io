@@ -739,6 +739,75 @@ UserUserComponent: typeof import('./src/components/user/UserComponent.vue')['def
 ```
 :::
 
+## 🐬 [iconify](https://iconify.design/) 图标方案
+
+### 🐬 安装
+- unocss 中使用 `Iconify` 作为图标数据源 🫱[文档](https://unocss.dev/presets/icons#install)
+
+- 使用 `@iconify-json/*(图标集)` 下载相应的图标集。也可以一次安装 `Iconify` 上所有可用的图标集 (`@iconify/json` 数据量大 建议选择常用合集下载)
+
+``` bash
+pnpm i -D @iconify/json
+```
+
+### 🐬 unocss 配置 iconify
+
+``` ts title="uno.config.ts" {2,3,10-18}
+import { defineConfig } from 'unocss'
+// + 引入 presetWind presetIcons
+import { presetWind, presetIcons } from 'unocss'
+
+export default defineConfig({
+  // ...UnoCSS options
+  presets: [
+    presetWind(),
+
+    presetIcons({
+      // 设置前缀
+      prefix: 'i-',
+      // 设置额外的css属性
+      extraProperties: {
+        display: 'inline-block',
+        'vertical-align': 'middle'
+      }
+    })
+  ]
+})
+```
+
+### 🐬 测试
+按照[文档](https://unocss.dev/presets/icons#install)约定来使用图标
+- `<prefix><collection>-<icon>`
+- `<prefix><collection>:<icon>`
+
+``` html title="src/pages/index.vue" {1-20}
+<template>
+  <!-- A basic anchor icon from Phosphor icons -->
+  <div class="i-ph-anchor-simple-thin" />
+  <!-- An orange alarm from Material Design Icons -->
+  <div class="i-mdi-alarm text-orange-400" />
+  <!-- Twemoji of laugh, turns to tear on hovering -->
+  <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
+
+  <!-- 前缀-图标集:图标名称。 也可以设置style -->
+  <div class="i-carbon:4k-filled" style="color: green; font-size: 60px"></div>
+</template>
+```
+
+![](../image/2024-04-30/vue-13.jpg)
+
+
+
+::: tip
+图标是项目中不可或缺的一部分，常见的有 [FontAwesome](https://fontawesome.com/)、[iconfont](https://www.iconfont.cn/)、和各UI库中包含的图标集等等。这些能应对大多数的场景。
+但是都有一定的局限性：不是完全免费、如果不从设计的角度出发会导致风格不一致、不方便进行颜色、样式修改等。
+
+除了使用的 [iconify](https://iconify.design/) 之外还有很多类似的库：[Lucide](https://lucide.dev/)、[Heronicons](https://heroicons.com/)、[Pikaicons](https://icon.pikaicons.com/)、[iconic](https://iconic.app/)，根据需求进行选择即可。按照各文档也可以集成 [tailwindcss](https://github.com/tailwindlabs/tailwindcss) 或其他库。
+
+[unplugin-icons](https://github.com/unplugin/unplugin-icons)
+:::
+
+
 
 ## 🐬 NPM依赖更新策略
 
