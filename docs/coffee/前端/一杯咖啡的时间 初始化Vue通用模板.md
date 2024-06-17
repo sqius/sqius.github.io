@@ -589,7 +589,7 @@ pnpm i @vueuse/core
 
 ``` ts title="vite.config.ts"
  AutoImport({
-  ......
+  // ......
   // global imports to register (全局需要注册的内容)
   imports: [
     'vue',
@@ -642,13 +642,13 @@ pnpm i -D unplugin-vue-components
 ### 🐬 配置
 
 ``` ts title="vite.config.ts"
-......
+// ......
 // + 引入
 import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig({
   plugins: [
-    ......
+    // ......
     // + 注册 plugins
     Components(),
   ],
@@ -716,7 +716,7 @@ directoryAsNamespace: false,
 
 可以更改为 `true`：
 ``` ts title="vite.config.ts"
-......
+// ......
 Components({ directoryAsNamespace: true,}),
 ```
 
@@ -789,7 +789,7 @@ export default defineConfig({
   <!-- Twemoji of laugh, turns to tear on hovering -->
   <div class="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
 
-  <!-- 前缀-图标集:图标名称。 也可以设置style -->
+  <!-- 前缀 图标集:图标名称。 也可以设置style -->
   <div class="i-carbon:4k-filled" style="color: green; font-size: 60px"></div>
 </template>
 ```
@@ -797,17 +797,127 @@ export default defineConfig({
 ![](../image/2024-04-30/vue-13.jpg)
 
 
-
 ::: tip
 图标是项目中不可或缺的一部分，常见的有 [FontAwesome](https://fontawesome.com/)、[iconfont](https://www.iconfont.cn/)、和各UI库中包含的图标集等等。这些能应对大多数的场景。
 但是都有一定的局限性：不是完全免费、如果不从设计的角度出发会导致风格不一致、不方便进行颜色、样式修改等。
 
-除了使用的 [iconify](https://iconify.design/) 之外还有很多类似的库：[Lucide](https://lucide.dev/)、[Heronicons](https://heroicons.com/)、[Pikaicons](https://icon.pikaicons.com/)、[iconic](https://iconic.app/)，根据需求进行选择即可。按照各文档也可以集成 [tailwindcss](https://github.com/tailwindlabs/tailwindcss) 或其他库。
+除了使用的 [iconify](https://iconify.design/) 之外还有很多类似的库：[Lucide](https://lucide.dev/)、[Heronicons](https://heroicons.com/)、[Pikaicons](https://icon.pikaicons.com/)、[iconic](https://iconic.app/)、[react-icons](https://react-icons.github.io/react-icons/)，根据需求进行选择即可。按照各文档也可以集成 [tailwindcss](https://github.com/tailwindlabs/tailwindcss) 或其他库。
 
 [unplugin-icons](https://github.com/unplugin/unplugin-icons)
 :::
 
+## 🐬 全局 Layouts
+> 除了一级路由 在项目中还涉及不同层级使用同一组布局的情况也就是嵌套路由。
 
+### 🐬 安装 [vite-plugin-vue-layouts](https://github.com/johncampionjr/vite-plugin-vue-layouts)
+``` bash
+npm install -D vite-plugin-vue-layouts
+```
+
+### 🐬 配置
+
+``` ts title="vite.config.ts" {2,3,10-13}
+// ......
+// 引入
+import Layouts from 'vite-plugin-vue-layouts';
+
+export default {
+  // ......
+  plugins: [
+    // ......
+    // 注册插件 并传入配置
+    Layouts({
+      layoutsDirs: 'layout', // 布局文件
+      defaultLayout: 'default' // 默认布局
+    })
+  ],
+};
+```
+
+- 注意使用的并不是 `vue-router`
+
+``` ts title="src/router/index.ts" {2,3,8}
+import { createRouter, createWebHistory } from 'vue-router/auto'
+// + 引入
+import { setupLayouts } from 'virtual:generated-layouts'
+import { routes } from 'vue-router/auto-routes'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: setupLayouts(routes)
+})
+
+export default router
+```
+
+### 🐬 测试
+
+- 在 `src` 创建 `layouts` 文件夹以及 `default.vue` 文件
+``` html title="src/layouts/default.vue"
+<template>
+  <h1 class="text-3xl font-bold underline">this is default layout</h1>
+  <header class="text-2xl">this is default header</header>
+
+  <div class="flex space-x-4 underline">
+    <router-link to="/">index</router-link>
+    <router-link to="/page1">page1</router-link>
+    <router-link to="/page2">page2</router-link>
+  </div>
+
+  <router-view></router-view>
+  <footer class="text-2xl">this is default footer</footer>
+</template>
+```
+
+- 在 `src/layouts` 文件夹创建 `home.vue` 文件
+``` html title="src/layouts/home.vue"
+<template>
+  <div class="text-3xl font-bold underline">this is home layout</div>
+  <header class="text-2xl">this is home header</header>
+  <router-view></router-view>
+  <footer class="text-2xl">this is home footer</footer>
+</template>
+```
+
+- 指定 `index layout` 为 `home`，`page1、page2` 为 `default`
+``` html title="src/pages/index.vue" {6-9}
+<template>
+  <!-- 前缀-图标集:图标名称来使用图标。 也可以设置style -->
+  <div class="i-carbon:4k-filled" style="color: green; font-size: 60px"></div>
+</template>
+
+<route lang="yaml">
+meta:
+  layout: home
+</route>
+```
+
+``` html title="src/pages/page1.vue" {5-8}
+<template>
+  <div>Hello Page1</div>
+</template>
+
+<route lang="yaml">
+meta:
+  layout: default
+</route>
+```
+
+``` html title="src/pages/page2.vue" {5-8}
+<template>
+  <div>Hello page2</div>
+</template>
+
+<route lang="yaml">
+meta:
+  layout: default
+</route>
+```
+
+![](../image/2024-04-30/vue-14.jpg)
+![](../image/2024-04-30/vue-15.jpg)
+
+> 还可以配置过渡效果、参数传递等。阅读🫱 [官方文档](https://github.com/johncampionjr/vite-plugin-vue-layouts?tab=readme-ov-file#transitions)
 
 ## 🐬 NPM依赖更新策略
 
