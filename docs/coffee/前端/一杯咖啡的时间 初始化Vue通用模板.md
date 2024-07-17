@@ -11,17 +11,6 @@
 
 ![](../image/2024-04-30/vue-1.jpg)
 
-::: info 选项
-Add TypeScript? - 是否使用 TypeScript 语法？
-Add JSX Support? - 是否使用 JSX 支持？
-Add Vue Router for Single Page Application development? - 是否引入 Vue Router 进行单页面应用开发？
-Add Pinia for state management? - 是否引入 Pinia 用于状态管理？
-Add Vitest for Unit Testing? - 是否引入 Vitest 用于单元测试？
-Add an End-to-End Testing solution? - 是否引入一个 端到端测试工具？
-Add EsLint for code quality? - 是否引入 Eslint 用于代码质量检测？
-Add Prettier fro code formatting? - 是否引入 Prettier 用于代码格式化？
-:::
-
 ### 🐬 安装依赖
 - 使用 `pnpm install` 安装项目依赖
 
@@ -918,6 +907,11 @@ meta:
 ![](../image/2024-04-30/vue-15.jpg)
 
 > 还可以配置过渡效果、参数传递等。阅读🫱 [官方文档](https://github.com/johncampionjr/vite-plugin-vue-layouts?tab=readme-ov-file#transitions)
+
+## 🐬 PWA技术集成
+
+渐进式Web应用(PWAs)是使用现代API构建并增强的Web应用，具有更高的性能、可靠性和可安装行，可在任何设备上运行。具有统一的代码库。
+🫱[文档](https://web.dev/learn/pwa)
 
 ## 🐬 NPM依赖更新策略
 
