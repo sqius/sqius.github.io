@@ -1,13 +1,13 @@
 # 一杯咖啡的时间 上手React
 
-## 初始化
+## 🐼 初始化
 ``` bash
 npx create-react-app project-name
 cd project-name
 npm start
 ```
 
-## 入口文件
+## 🐼 入口文件
 
 ![](../image/2024-07-18/react-1.jpg)
 
@@ -36,7 +36,7 @@ npm start
 
 :::
 
-## React 组件
+## 🐼 React 组件
 `组件（Components）` 是 `React` 的核心概念之一。它是构建用户界面`（UI）`的基石。
 
 - 函数式组件
@@ -84,7 +84,7 @@ export default App;
 在 React.Component 子类实现构造函数时，必须在其他语句之前调用 `super(props)`
 :::
 
-## 关于 JSX
+## 🐼 关于 JSX
 
 - `Jsx` 本质就是`JavaScript`的语法扩展，即`JavaScript XML`。
 - `Jsx` 看起来像是一种模板语言，但它具有 `JavaScript` 的全部功能。
@@ -104,9 +104,7 @@ export default App;
 
 :::
 
-## 生命周期
-
-
+## 🐼 生命周期
 
 ##### 生命周期执行顺序
 - 挂载时：`constructor()`、`static getDerivedStateFromProps()`、`render()`、`componentDidMount()`
@@ -116,7 +114,6 @@ export default App;
 ![](../image/2024-07-18/react-3.jpg)
 
 >
-
 
 类组件的生命周期:
 > 其实 react 的运行过程就是它的类的实例过程：
@@ -246,10 +243,10 @@ export default App;
 
 :::
 
-## React Hooks
+## 🐼 React Hooks
 > 以 `use` 开头的函数被称为 `Hook`。一个 `hooks` 几乎可以实现 `class` 类组件中的所有生命周期。`hooks` 让书写 `react` 的感觉无限接近于在写 `js`。
 
-### useState
+### 🐼 useState
 ::: details const [state, setState] = useState(initialState)
 
 - 参数：
@@ -291,7 +288,7 @@ export default App;
 `react` 为了性能(JS执行一万次不可能让浏览器也渲染一万次) 所以在 `react` 更新底层的异步任务(微任务)队列，会把一段时间内的对组件的修改进行合并，并一次渲染完成。
 :::
 
-### useEffect
+### 🐼 useEffect
 ::: details useEffect(setup, dependencies?)
 
 - 参数：
@@ -381,7 +378,7 @@ hooks是用链表这种数据结构来进行连接的，通过next属性保持�
 ![](../image/2024-07-18/react-6.jpg)
 :::
 
-### useLayoutEffect
+### 🐼 useLayoutEffect
 ::: details useLayoutEffect(setup, dependencies?)
 - `useLayoutEffect` 是 `useEffect` 的一个版本，在浏览器重新绘制屏幕之前触发。
 
@@ -397,7 +394,7 @@ hooks是用链表这种数据结构来进行连接的，通过next属性保持�
 
 :::
 
-### useMemo
+### 🐼 useMemo
 ::: details const cachedValue = useMemo(calculateValue, dependencies)
 - 用于 `react` 渲染过程中的性能优化。
 - 它在每次重新渲染的时候能够缓存计算的结果。
@@ -410,7 +407,7 @@ hooks是用链表这种数据结构来进行连接的，通过next属性保持�
 :::
 
 
-### useCallback
+### 🐼 useCallback
 ::: details const cachedFn = useCallback(fn, dependencies)
 - 用于 `react` 渲染过程中的性能优化。
 - 允许你在多次渲染中缓存函数，对函数引用的缓存。
@@ -428,7 +425,7 @@ hooks是用链表这种数据结构来进行连接的，通过next属性保持�
 
 :::
 
-### useRef
+### 🐼 useRef
 ::: details const ref = useRef(initialValue)
 
 - 用 `ref` 引用一个值，改变 `ref` 不会触发重新渲染。（储存一些不影响组件视图输出信息的完美选择）
@@ -443,7 +440,7 @@ hooks是用链表这种数据结构来进行连接的，通过next属性保持�
 
 :::
 
-### forwardRef
+### 🐼 forwardRef
 ::: details const SomeComponent = forwardRef(render)
 - 允许组件使用 `ref` 将 `DOM` 节点暴露给父组件， 默认情况下，组件不会将它们的 `DOM` 节点暴露给父组件。。
 - 函数式组件是没有 `ref` 的，可以通过 `forwardRef` 转发出去。
@@ -458,7 +455,7 @@ const MyInput = forwardRef(function MyInput(props, ref) {
 
 :::
 
-### useContext
+### 🐼 useContext
 ::: details const value = useContext(SomeContext)
 - 可以让你读取和订阅组件中的 `context`。向组件树深层传递数据。主要用于跨组件传值。
 - 父组件使用`Provider`包裹，给所有子组件注入上下文（值）。子孙组件就可以通过`useContext`拿到顶层组件注入的值。
@@ -488,7 +485,7 @@ function App() {
 
 :::
 
-### useTransition
+### 🐼 useTransition
 ::: details const [isPending, startTransition] = useTransition()
 - 在不阻塞 UI 的情况下更新状态。(并发更新。fiber架构)。
 - 用于优化耗时组件造成的性能影响。
@@ -565,7 +562,7 @@ function TabContainer() {
 
 :::
 
-### useId
+### 🐼 useId
 ::: details const id = useId()
 - 组件渲染过程中生成一个 `ID`。
 - 可以生成传递给无障碍属性的唯一 `ID`。
@@ -574,7 +571,7 @@ function TabContainer() {
 
 :::
 
-### useImperativeHandle
+### 🐼 useImperativeHandle
 ::: details useImperativeHandle(ref, createHandle, dependencies?)
 
 - 向父组件暴露一个自定义的 `ref`，通过 `forwardRef` 转发出去。
@@ -594,7 +591,7 @@ const MyInput = forwardRef(function MyInput(props, ref) {
 
 :::
 
-### useInsertionEffect
+### 🐼 useInsertionEffect
 
 ::: details useInsertionEffect(setup, dependencies?)
 - 可以在布局副作用触发之前将元素插入到 `DOM` 中。
@@ -603,7 +600,7 @@ const MyInput = forwardRef(function MyInput(props, ref) {
 
 :::
 
-### useSyncExternalStore
+### 🐼 useSyncExternalStore
 
 ::: details const snapshot = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)
 - 一个让你订阅外部 `store` 的 `React Hook`，也是为库的作者使用的。

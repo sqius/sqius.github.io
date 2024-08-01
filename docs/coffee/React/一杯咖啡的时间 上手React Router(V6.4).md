@@ -2,7 +2,7 @@
 
 > `V6.4` 是路由最激动人心的版本，它具有读取、写入和导航钩子的新数据抽象。可以轻松让 `UI` 与 数据保持同步。数据路由颠覆了传统模式，提高了性能。不再支持 `class` 类组件，全 `hooks` 支持。
 
-## 初始化
+## 🐸 初始化
 
 - [create-react-app](https://github.com/facebook/create-react-app) 初始化项目
 ``` bash
@@ -39,9 +39,9 @@ npm install react-router-dom
 
 :::
 
-## 路由组件
+## 🐸 路由组件
 
-### BrowserRouter
+### 🐸 BrowserRouter
 
 > 使用简洁的 URL 将当前位置存储在浏览器地址栏中，并使用浏览器内置的历史堆栈进行导航。
 
@@ -78,7 +78,7 @@ root.render(
 
 :::
 
-### HashRouter
+### 🐸 HashRouter
 
 > `http://localhost:3000/#page`
 
@@ -99,7 +99,7 @@ ReactDOM.render(
 
 - 不建议使用，改造服务端渲染很麻烦。
 
-### MemoryRouter
+### 🐸 MemoryRouter
 
 > 内存型路。将其位置存储在内部数组中。非常适合需要完全控制历史堆栈的情况。如用于单元测试。
 
@@ -125,7 +125,7 @@ describe("My app", () => {
 });
 ```
 
-### NativeRouter
+### 🐸 NativeRouter
 
 > 是在 React Native 应用程序中运行 React Router 的推荐接口。
 
@@ -142,7 +142,7 @@ function App() {
 }
 ```
 
-### StaticRouter
+### 🐸 StaticRouter
 
 > 静态路由。一般用于在 node 中渲染 React Router Web 应用程序。node 环境中没有 window 不能使用 BrowserRouter。
 
@@ -166,7 +166,7 @@ function requestHandler(req, res) {
 http.createServer(requestHandler).listen(3000);
 ```
 
-### Outlet 组件
+### 🐸 Outlet 组件
 
 > 父路由元素中应使用 <Outlet> 来呈现其子路由元素。这样就可以在呈现子路由时显示嵌套用户界面。如果父路由完全匹配，则会呈现子索引路由；如果没有索引路由，则不会呈现任何内容。子页面的占位符。
 
@@ -197,9 +197,9 @@ root.render(
 ```
 
 
-## 常用 Hooks
+## 🐸 常用 Hooks
 
-### useNavigate
+### 🐸 useNavigate
 
 ::: details 此钩子会返回一个函数，让您以编程方式导航。
 
@@ -224,7 +224,7 @@ function CommonHeader() {
 }
 ```
 
-### useLocation
+### 🐸 useLocation
 
 ::: details 此钩子返回当前 location 对象。 可以获取一些 navigate 路由过来的状态。
 
@@ -241,7 +241,7 @@ function PageB() {
 ![](../image/2024-07-24/react-router-1.jpg)
 
 
-### useSearchParams
+### 🐸 useSearchParams
 
 ::: details 此钩子用于读取和修改当前位置 URL 中的查询字符串。
 
@@ -270,7 +270,7 @@ function PageA() {
 
 ![](../image/2024-07-24/react-router-2.jpg)
 
-### useMatch
+### 🐸 useMatch
 
 ::: details 返回给定路径上的路由相对于当前位置的匹配数据
 
@@ -291,7 +291,7 @@ console.log(match2);
 ![](../image/2024-07-24/react-router-3.jpg)
 
 
-## 数据路由架构
+## 🐸 数据路由架构
 
 - 传统路由: 路由与 UI渲染之间的关系。
 - 数据路由: 路由与 UI渲染和数据之间的关系，多了一个数据状态的抽象。
@@ -421,7 +421,7 @@ const PageA = React.lazy(() => import('./PageA'))
 :::
 
 
-## 没有银弹
+## 🐸 没有银弹
 
 数据路由 带来了直观的性能提升。但是他的缺点是讲数据耦合到了 UI 中，增加了项目耦合性，维护成本提高。
 
