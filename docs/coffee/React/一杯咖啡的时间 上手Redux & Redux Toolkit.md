@@ -33,7 +33,6 @@
   }
   ```
 
-
   - 如果当有多个组件需要共享和使用相同 `state` 时，会变得很复杂，有时可以通过 `提升 state` 到父组件解决。当组件关系复杂庞大时，这并不是一个好方法。
 
   - 解决这个问题的一种方法是从组件中提取共享 `state`，并将其放入组件树之外的一个集中位置。这样，我们的组件树就变成了一个大 `view`，任何组件都可以访问 `state` 或触发 `action`，无论它们在树中的哪个位置。
@@ -471,3 +470,459 @@ const todosSlice = createSlice({
   - 自动生成一个 `thunk + pending/fulfilled/rejected action creators`
   - 包括用于常见任务的 `reducer` 功能，例如添加/更新/删除 `items`
   - 为 `selectAll` 和 `selectById` 生成记忆化 `selectors`
+
+## 🐱 [Redux](https://redux.js.org/) 内部实现
+
+Redux 的 API 非常少。Redux 为你定义了一系列的约定（例如 reducers），同时提供了少量的辅助函数来把这些约定整合到一起。
+
+- 顶级暴露的方法：
+  - `createStore(reducer, [preloadedState], [enhancer])`
+  - `combineReducers(reducers)`
+  - `applyMiddleware(...middlewares)`
+  - `bindActionCreators(actionCreators, dispatch)`
+  - `compose(...functions)`。
+
+- Store API：
+  - `getState()`
+  - `dispatch(action)`
+  - `subscribe(listener)`
+  - `replaceReducer(nextReducer)`
+
+以下代码实现的测试都基于该计数器代码：
+
+``` html title="redux-learn.html"
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Redux basic example</title>
+</head>
+
+<body>
+  <div>
+    <span id="value">0</span>
+    <button id="increment">+10</button>
+    <button id="decrement">-10</button>
+  </div>
+  <script type="module">
+    import { createStore } from "https://unpkg.com/redux@latest/dist/redux.browser.mjs";
+
+    // 定义State： 定义一个初始状态值
+    const initialSate = { value: 0 }
+
+    // 定义Reducer： 参数接收 state(初始值initialSate) 和 action
+    const reducer = (state = initialSate, action) => {
+      // / Reducers 通常会查看发生的 action 的 type 来决定如何更新状态
+      switch (action.type) {
+        case "counter/incremented":
+          return { value: state.value + 10 }
+        case "counter/decremented":
+          return { value: state.value - 10 }
+        default:
+          return state
+      }
+    }
+
+    // 创建Store：调用 Redux 库 createStore 来创建一个 store 实例
+    const store = createStore(reducer)
+
+    // 获取 HTML 元素
+    const valueEl = document.getElementById('value')
+
+    // 获取 Store 状态并更新 UI
+    function render() {
+      const state = store.getState()
+      valueEl.innerHTML = state.value.toString()
+    }
+
+    // 初始化调用 更新 UI
+    render()
+
+    // 订阅 Store 的状态
+    store.subscribe(render)
+
+    // 点击按钮时 发起 action
+    document
+      .getElementById("increment")
+      .addEventListener("click", function () {
+        store.dispatch({ type: "counter/incremented" });
+      });
+
+    document
+      .getElementById("decrement")
+      .addEventListener("click", function () {
+        store.dispatch({ type: "counter/decremented" });
+      });
+  </script>
+</body>
+
+</html>
+```
+
+### 🐱 实现 `createStore`
+
+- `store` 内部有当前的 `state`
+- `getState` 方法返回当前 `state` 值
+- `dispatch` 调用 `reducer`，保存 `state`，并运行监听器
+- `store` 在启动时 `dispatch` 一个 `action` 来初始化 `reducers` 的 `state`
+- `store API` 是一个对象，里面有 { `dispatch`, `subscribe`, `getState` }
+
+``` js title="redux-learn.js"
+function createStore(reducer) {
+
+  // store 内部 state 值
+  let state;
+
+  // store 内部保存监听器集合
+  let listerners = [];
+
+  // `getState` 方法返回当前 `state` 值
+  function getState() {
+    return state;
+  }
+
+  // dispatch 调用 reducer，保存 新的 state。
+  // dispatch 运行 subscribe 订阅的 集合中 所有函数
+  function dispatch(action) {
+    state = reducer(state, action);
+    listerners.forEach((listerner) => listerner());
+  }
+
+  // subscribe 用来 订阅 发布函数，可以多个订阅放入集合中。
+  function subscribe(listener) {
+    listerners.push(listener);
+  }
+
+  // 内部启动时触发一次 dispatch
+  dispatch({ type: "@@redux/init" });
+
+  const store = { getState, dispatch, subscribe };
+
+  // 返回 { dispatch, subscribe, `getState }
+  return store;
+}
+```
+
+- 测试：
+``` html title="redux-learn.html" {4,7}
+<!-- ... 省略以上代码 ... -->
+
+<!-- 引入自己实现的 createStore -->
+<script src="./redux-test.js"></script>
+<script type="module">
+// 使用 redux-test.js 中的 createStore
+// import { createStore } from "https://unpkg.com/redux@latest/dist/redux.browser.mjs";
+
+// ... 以下省略代码 ...
+</script>
+<!-- ... 省略以下代码 ... -->
+```
+
+### 🐱 实现 combineReducers
+
+- `combineReducers` 就是把多个 `reducer` ，合并成一个 `reducer` 函数，传递给 `createStore`使用。
+- 参数：一个 `reducers` 对象，对象的 `value` 对应不同的 `reducer`。
+- 返回：调用了 `reducers` 对象里所有 `reducer` 后的一个 `reducer` 函数，并且构造一个与 `reducers` 对象结构相同的 `state` 对象。
+
+``` js title="redux-learn.js"
+function combineReducers(reducers) {
+  // 获取传入对象的所有 key
+  const reducersKeys = Object.keys(reducers);
+
+  // 返回的一个reducer createStore 就接受一个 reducer 函数
+  const finalReducer = (state = {}, action) => {
+    const finalState = {};
+    // 遍历执行 reducers 中 所有的 reducer
+    for (let i = 0; i < reducersKeys.length; i++) {
+      // 当前key
+      const key = reducersKeys[i];
+      // 当前的 reducer
+      const currentReducer = reducers[key];
+      // 执行当前的 reducer 传入 finalReducer 的参数
+      const currentState = currentReducer(state[key], action);
+      // 利用传入的对象结构 构造一个结构相同的新 state 返回
+      finalState[key] = currentState;
+    }
+    return finalState;
+  };
+
+  return finalReducer;
+}
+```
+
+- 测试：
+
+``` js title="redux-learn.html"
+// ... 省略以上代码 ...
+
+// 定义State： 定义一个初始状态值
+const initialSate = { value: 0 }
+
+// 定义Reducer： 参数接收 state(初始值initialSate) 和 action
+const reducer = (state = initialSate, action) => {
+  // / Reducers 通常会查看发生的 action 的 type 来决定如何更新状态
+  switch (action.type) {
+    case "counter/incremented":
+      return { value: state.value + 10 }
+    case "counter/decremented":
+      return { value: state.value - 10 }
+    default:
+      return state
+  }
+}
+
+// 测试 combineReducers
+const todoReducer = (state = "todo", action) => { return state };
+const otherReducer = (state = { other: 0 }, action) => { return state };
+
+// 创建Store：调用 Redux 库 createStore 并使用 combineReducers 来创建一个 store 实例
+const store = createStore(combineReducers({ reducer, todoReducer, otherReducer }))
+
+console.log(store.getState())
+
+// ... 省略以下代码 ...
+
+```
+
+![](../image/2024-07-29/redux-3.jpg)
+
+### 🐱 实现 applyMiddleware
+
+`middleware` 中间件 是什么：
+  - `middleware` 是自定义 `store` 的主要方式。
+  - `middleware` 中间件是让我们自定义 `dispatch` 的函数。
+  - `middleware` 在 `dispatch action` 和 `reducer` 之间提供扩展点。一般用来进行日志记录、崩溃报告、异步 API 通信、路由等。
+  - `middleware` 被写成三个相互嵌套的函数 每次 `dispatch action` 时都会运行 `middleware`。
+  - 自定义 `middleware` 示例：
+  ``` js title="redux-learn.html"
+
+  // 外层 function:
+  function logger(storeAPI) {
+    return function wrapDispatch(next) {
+      return function handleAction(action) {
+        console.log('will dispatch', action)
+
+        // 调用 middleware 链中下一个 middleware 的 dispatch。
+        // 或者使用 storeAPI.dispatch(action) 重启管线
+        const returnValue = next(action)
+
+        // 这里也可以使用 storeAPI.getState()
+        console.log('state after dispatch', storeAPI.getState())
+
+        // 一般会是 action 本身，除非后面的 middleware 修改了它。
+        return returnValue
+      }
+    }
+  }
+
+  // 使用箭头函数：
+  const anotherLogger = storeAPI => next => action => {
+    // 当每个 action 都被 dispatch 时，在这里做一些事情
+    return next(action)
+  }
+  ```
+
+`applyMiddleware` 是什么：
+  - `Middleware` 并不需要和 `createStore` 绑在一起使用，也不是 `Redux` 架构的基础组成部分。
+  - 但它带来的益处让官方认为有必要在 `Redux` 核心中包含对它的支持。
+  - 虽然不同的 `middleware` 可能在易用性和用法上有所不同，它仍被作为扩展 `dispatch` 的唯一标准的方式。
+  - 参数: 遵循 `Redux middleware API` 的函数。
+  - 返回: 一个应用了 `middleware` 后的 `store enhancer`。
+  - 实现 `applyMiddleware`：
+
+  ``` js title="redux-learn.js"
+  // 首先 createStore 接收一个 enhancer 函数
+  function createStore(reducer, enhancer) {
+
+    // 如果 传入 enhancer, 返回一个 新的 store
+    if (enhancer && typeof enhancer === "function") {
+      const newCreateStore = enhancer(createStore);
+      const newStore = newCreateStore(reducer);
+      return newStore;
+    }
+    // ... 省略以下代码 ...
+  }
+
+  // 定义 applyMiddleware 接收 middleware
+  function applyMiddleware(middleware) {
+    // 定义 enhancer 接收一个创建 store 的方法 并返回一个 newCreateStore
+    function enhancer(createStore) {
+      // 定义 newCreateStore 接收 reducer
+
+      function newCreateStore(reducer) {
+        // 使用 createStore 创建 store
+        const store = createStore(reducer);
+        // 把这个 store 传递给 middleware，也就是测试代码中的 logger的参数
+
+        // 这里开始处理 中间件：调用 middleware 传递当前的 store，返回 wrapDispatch
+        const wrapDispatch = middleware(store);
+        // wrapDispatch 接收当前的 store 的 dispatch，并返回一个 新的 dispatch
+        const newDispatch = wrapDispatch(store.dispatch);
+
+        // 重写 store 的 dispatch 并返回
+        return { ...store, dispatch: newDispatch };
+      }
+
+      // enhancer 返回一个 newCreateStore
+      return newCreateStore;
+    }
+    // applyMiddleware 返回一个 enhancer
+    return enhancer;
+  }
+
+  ```
+
+- 测试 `applyMiddleware`：
+``` js title="redux-learn.html"
+  // ... 省略以上代码 ...
+
+  // logger middleware
+  function logger(storeAPI) {
+    return function wrapDispatch(next) {
+      return function handleAction(action) {
+
+        console.log('state will dispatch', storeAPI.getState())
+
+        // 调用 middleware 链中下一个 middleware 的 dispatch。
+        const returnValue = next(action)
+
+        // 这里也可以使用 storeAPI.getState()
+        // 或者使用 storeAPI.dispatch(action) 重启管线
+        console.log('state after dispatch', storeAPI.getState())
+
+        // 一般会是 action 本身，除非后面的 middleware 修改了它。
+        return returnValue
+      }
+    }
+  }
+
+  // 测试 applyMiddleware
+  const store = createStore(reducer, applyMiddleware(logger))
+
+  // ... 省略以下代码 ...
+```
+
+- 每次 `dispatch action` 时都会运行 `middleware`：
+
+![](../image/2024-07-29/redux-4.jpg)
+
+### 🐱 实现 compose
+
+- 想要使用多个 `store enhancer`，可以使用 `compose()` 方法：
+``` js title="例"
+// applyMiddleware 中的连续调用：
+const store = createStore( reducer, applyMiddleware(middleware1, middleware2, middleware3))
+//  或: 这个 store 与 applyMiddleware 和 redux-devtools 一起使用:
+const store = createStore( reducer, compose( applyMiddleware(thunk), DevTools.instrument() ))
+```
+
+- 用来从右到左来组合多个函数。
+- 参数：需要合成的多个函数。预计每个函数都接收一个参数。它的返回值将作为一个参数提供给它左边的函数，以此类推。
+- 返回：从右到左把接收到的函数合成后的最终函数。
+- 函数式编程思想，Redux 中应用很多。
+- compose(funcA, funcB, funcC) 形象为 compose(funcA(funcB(funcC())))。
+- 实现 `compose`：
+
+``` js title="redux-learn.js"
+
+// 定义 compose 函数 接收 需要合成的多个函数
+function compose() {
+  // 接收 函数参数
+  const funs = [].slice.apply(arguments);
+
+  // 接收一个参数 返回一个 从右到左把接收到的函数合成后的最终函数
+  return function (arg) {
+    // Array.prototype.reduceRight()
+    return funs.reduceRight((preFunRes, funItem) => {
+      return funItem(preFunRes);
+    }, arg);
+  };
+}
+```
+
+- 改写 `applyMiddleware` 支持 多个中间件：
+``` js title="redux-learn.js" {12,13,18-21}
+
+  // before : function applyMiddleware(middleware) {
+  // after: 这里 接收 middlewares
+  function applyMiddleware(...middlewares) {
+    function enhancer(createStore) {
+
+      function newCreateStore(reducer) {
+        const store = createStore(reducer);
+
+        // before: 这里开始处理 中间件：调用 middleware 传递当前的 store，返回 wrapDispatch
+        // before: const wrapDispatch = middleware(store);
+
+        // after: 循环调用 每个 middleware 并获得返回的 wrapDispatch 队列
+        const wrapDispatchChain = middlewares.map((item) => item(store));
+
+        // befroe: wrapDispatch 接收当前的 store 的 dispatch，并返回一个 新的 dispatch
+        // before: const newDispatch = wrapDispatch.(store.dispatch);
+
+        // after: 使用 compose 从右到左把 wrapDispatchChain 队列中函数 合成最终函数
+        // after: wrapDispatch 接收当前的 store 的 dispatch，并返回一个 新的 dispatch
+        const wrapDispatchCompose =  compose(...wrapDispatchChain)
+        const newDispatch = wrapDispatchCompose(store.dispatch);
+
+        return { ...store, dispatch: newDispatch };
+      }
+      return newCreateStore;
+    }
+    return enhancer;
+  }
+```
+
+- 测试 `applyMiddleware`：
+``` js title="redux-learn.html" {46}
+// ... 省略以上代码 ...
+
+// 第一个中间件
+function middleware1({ getState }) {
+  return function wrapDispatch(next) {
+    return function handleAction (action) {
+
+      console.log('第1个中间件 diapatch 前', getState())
+      const returnValue = next(action)
+      console.log('第1个中间件 diapatch 后', getState())
+
+      return returnValue
+    }
+  }
+}
+
+// 第二个中间件
+function middleware2({ getState }) {
+  return function wrapDispatch(next) {
+    return function handleAction (action) {
+
+      console.log('第2个中间件 diapatch 前', getState())
+      const returnValue = next(action)
+      console.log('第2个中间件 diapatch 后', getState())
+
+      return returnValue
+    }
+  }
+}
+
+// 第三个中间件
+function middleware3({ getState }) {
+  return function wrapDispatch(next) {
+    return function handleAction (action) {
+
+      console.log('第3个中间件 diapatch 前', getState())
+      const returnValue = next(action)
+      console.log('第3个中间件 diapatch 后', getState())
+
+      return returnValue
+    }
+  }
+}
+
+// 测试 applyMiddleware
+const store = createStore(reducer, applyMiddleware(middleware1, middleware2, middleware3))
+
+// ... 省略以下代码 ...
+```
+
+![](../image/2024-07-29/redux-5.jpg)
