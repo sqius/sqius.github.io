@@ -882,9 +882,9 @@ function middleware1({ getState }) {
   return function wrapDispatch(next) {
     return function handleAction (action) {
 
-      console.log('第1个中间件 diapatch 前', getState())
+      console.log('第1个中间件 dispatch 前', getState())
       const returnValue = next(action)
-      console.log('第1个中间件 diapatch 后', getState())
+      console.log('第1个中间件 dispatch 后', getState())
 
       return returnValue
     }
@@ -896,9 +896,9 @@ function middleware2({ getState }) {
   return function wrapDispatch(next) {
     return function handleAction (action) {
 
-      console.log('第2个中间件 diapatch 前', getState())
+      console.log('第2个中间件 dispatch 前', getState())
       const returnValue = next(action)
-      console.log('第2个中间件 diapatch 后', getState())
+      console.log('第2个中间件 dispatch 后', getState())
 
       return returnValue
     }
@@ -910,9 +910,9 @@ function middleware3({ getState }) {
   return function wrapDispatch(next) {
     return function handleAction (action) {
 
-      console.log('第3个中间件 diapatch 前', getState())
+      console.log('第3个中间件 dispatch 前', getState())
       const returnValue = next(action)
-      console.log('第3个中间件 diapatch 后', getState())
+      console.log('第3个中间件 dispatch 后', getState())
 
       return returnValue
     }
