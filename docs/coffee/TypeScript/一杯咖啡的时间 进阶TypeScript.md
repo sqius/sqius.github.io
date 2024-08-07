@@ -216,7 +216,7 @@ function dogBark(dogFactory: DogFactory) {
 - 返回值使用子类型协变的方式确定是否成立。
 > 返回值类型允许为 Dog 的子类型，不允许为 Dog 的父类型。
 
-> 顺从-返回值只能向下不能向上 (逆变)
+> 顺从-返回值只能向下不能向上 (协变)
 
 ``` ts
 type DogFactory = (args: Dog) => Dog; // ok
