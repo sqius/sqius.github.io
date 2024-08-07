@@ -55,7 +55,7 @@ function handleValue(val: All) {
       break;
     case "bar":
       // val 被收窄为 Bar
-      break;
+      break;  
     default:
       // val 在这里是 never
       const exhaustiveCheck: never = val
