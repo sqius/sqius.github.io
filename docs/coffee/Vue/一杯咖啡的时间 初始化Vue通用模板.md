@@ -186,7 +186,7 @@ cd src/pages
 touch index.vue page1.vue page2.vue
 
 # 重启项目
-pnpn dev
+pnpm dev
 ```
 
 ``` html title="src/pages/index.vue"

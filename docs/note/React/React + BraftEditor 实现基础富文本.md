@@ -1,16 +1,16 @@
 # React + BraftEditor 实现基础富文本
 
-### BraftEditor
+## 😊 BraftEditor
 [（BraftEditor）](https://www.npmjs.com/package/braft-editor)一个基于draft-js的Web富文本编辑器，适用于React框架，兼容主流现代浏览器。
 
 ![](../image/2024-04-02/react+braftteEditor-1.jpg)
 
-### 安装 BraftEditor
+## 😊 安装 BraftEditor
 ``` bash
 yarn add braft-editor
 ```
 
-### 实现 基础的富文本组件
+## 😊 实现 基础的富文本组件
 1. 创建组件
 ``` bash
 mkdir RichText
@@ -161,7 +161,7 @@ export default (props: Props) => {
 };
 ```
 
-### createEditorState 方法
+## 😊 createEditorState 方法
 可以使用 `BraftEditor.createEditorState` 方法来将 `raw`或者 `html`格式的数据转换成 `editorState` 数据
 
 ``` tsx

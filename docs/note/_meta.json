@@ -16,6 +16,11 @@
   },
   {
     "type": "dir",
+    "name": "Hooks",
+    "label": "Hooks"
+  },
+  {
+    "type": "dir",
     "name": "React",
     "label": "React"
   },
@@ -28,10 +33,5 @@
     "type": "dir",
     "name": "java",
     "label": "java"
-  },
-  {
-    "type": "dir",
-    "name": "sql",
-    "label": "sql"
   }
 ]
