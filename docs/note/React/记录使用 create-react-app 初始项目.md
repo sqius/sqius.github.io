@@ -1,4 +1,4 @@
-# 使用 create-react-app 初始项目
+# 记录使用 create-react-app 初始项目
 
 ## 🚁 创建项目
 
@@ -131,7 +131,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {};
 
-const xxSlice = createSlice({
+const demoSlice = createSlice({
   initialState,
   name: "demo",
   reducers: {},
@@ -180,7 +180,7 @@ const initialState = {
 export const fetchDemoSourceData = createAsyncThunk(
   "demo/fetchDemoSourceData",
   async () => {
-    const { data }: AxiosRes = await axios.get("/api//xxx/xxx");
+    const { data }: AxiosRes = await axios.get("/api/xxx/xxx");
     return data.data;
   }
 );
@@ -238,7 +238,7 @@ function Demo() {
 
 
   // 改变时
-  const handleLessonChange = (value: any, labelList: React.ReactNode[]) => {
+  const handleSelectorChange = (value: string, labelList: React.ReactNode[]) => {
     dispatch(set_demo_select_data({ value, title: labelList[0] }));
   };
 

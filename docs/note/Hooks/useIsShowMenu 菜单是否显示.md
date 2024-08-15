@@ -1,4 +1,4 @@
-# useIsShowMenu 实现
+# useIsShowMenu 菜单是否显示
 
 ``` ts
 export type RoutersDataType = typeof routersData;

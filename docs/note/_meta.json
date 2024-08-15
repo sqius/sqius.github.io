@@ -6,13 +6,13 @@
   },
   {
     "type": "dir",
-    "name": "css",
-    "label": "css"
+    "name": "JS",
+    "label": "JS"
   },
   {
     "type": "dir",
-    "name": "Javascript",
-    "label": "Javascript"
+    "name": "CSS",
+    "label": "CSS"
   },
   {
     "type": "dir",
@@ -31,7 +31,7 @@
   },
   {
     "type": "dir",
-    "name": "java",
-    "label": "java"
+    "name": "代码案例",
+    "label": "代码案例"
   }
 ]
