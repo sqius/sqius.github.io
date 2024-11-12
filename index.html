@@ -9,7 +9,13 @@
 
 <script>
   // 这里先跳转走，以后开发一个个人主页
-  window.location.replace("https://sqius.github.io/youyou-notes/")
+  const pathname = window.location.pathname
+  if (pathname === '/coffee' || pathname === '/coffee/') {
+    window.location.replace("https://sqius.github.io/youyou-notes/")
+  } else {
+    window.location.replace("https://sqius.github.io/youyou-notes/")
+  }
+
 </script>
 
 </html>
